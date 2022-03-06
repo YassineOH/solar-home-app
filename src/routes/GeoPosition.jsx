@@ -1,13 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Button, Typography } from "@mui/material";
 import GoogleMapReact from "google-map-react";
 import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
+import { useSelector, useDispatch } from "react-redux";
 
 import { NavigationButtons } from "../components";
+import { coordsActions } from "../store";
 
 const GeoPosition = () => {
-  const [markerCoords, setMarkerCoords] = useState(null);
-  const coords = { lat: 33.9716, lng: -6.8498 };
+  const [showMarker, setShowMarker] = useState(false);
+  const [isMapChanged, setIsMapChanged] = useState(false);
+  const coords = useSelector((state) => state.coords.coords);
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    setIsMapChanged(true);
+    dispatch(coordsActions.changeCoords({ lat: e.lat, lng: e.lng }));
+  };
+
+  useEffect(() => {
+    if (isMapChanged) {
+      setShowMarker(true);
+    }
+  }, [isMapChanged]);
+
   return (
     <>
       <Grid
@@ -29,14 +45,14 @@ const GeoPosition = () => {
           <GoogleMapReact
             bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLEMAPS_KEYS }}
             defaultZoom={10}
-            defaultCenter={coords}
-            onClick={(e) => setMarkerCoords({ lat: e.lat, lng: e.lng })}
+            defaultCenter={{ lat: 33.9716, lng: -6.8498 }}
+            onClick={(e) => handleChange(e)}
           >
-            {markerCoords && (
+            {showMarker && (
               <RoomOutlinedIcon
                 fontSize="large"
-                lat={markerCoords.lat}
-                lng={markerCoords.lng}
+                lat={coords.lat}
+                lng={coords.lng}
               />
             )}
           </GoogleMapReact>
@@ -44,11 +60,9 @@ const GeoPosition = () => {
         <Grid item container justifyContent="center">
           <Button
             variant="contained"
-            disabled={markerCoords ? false : true}
+            disabled={showMarker ? false : true}
             onClick={() =>
-              alert(
-                `your position is ${(markerCoords.lat + ",", markerCoords.lng)}`
-              )
+              alert(`your position is ${(coords.lat + ",", coords.lng)}`)
             }
           >
             set your geo position
