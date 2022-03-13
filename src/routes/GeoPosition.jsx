@@ -1,21 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Button, Typography } from "@mui/material";
+import { Grid, Button, Avatar } from "@mui/material";
 import GoogleMapReact from "google-map-react";
-import RoomOutlinedIcon from "@mui/icons-material/RoomOutlined";
 import { useSelector, useDispatch } from "react-redux";
 
-import { NavigationButtons } from "../components";
-import { coordsActions } from "../store";
+import { getSolarPower } from "../services/solarData";
+
+import myStyles from "../components/style";
+import { NavigationButtons, RouteTitle } from "../components";
+import {
+  coordsActions,
+  progressAction,
+  specificEnergyActions,
+} from "../app/store";
+
+import icon from "../assets/map.png";
+import pin from "../assets/pin.png";
 
 const GeoPosition = () => {
   const [showMarker, setShowMarker] = useState(false);
   const [isMapChanged, setIsMapChanged] = useState(false);
   const coords = useSelector((state) => state.coords.coords);
+  const goToNext = useSelector((state) => state.progress.geoPosition);
   const dispatch = useDispatch();
+
+  const style = myStyles();
 
   const handleChange = (e) => {
     setIsMapChanged(true);
     dispatch(coordsActions.changeCoords({ lat: e.lat, lng: e.lng }));
+  };
+
+  const handleSubmit = () => {
+    getSolarPower("PVcalc", coords.lat, coords.lng, 1)
+      .then((res) => JSON.parse(res.data.contents))
+      .then((data) => data.outputs.totals.fixed.E_y)
+      .then((energy) => {
+        dispatch(specificEnergyActions.setSpecificEnergy(energy));
+      });
+    dispatch(progressAction.setProgressGeo(true));
   };
 
   useEffect(() => {
@@ -33,8 +55,8 @@ const GeoPosition = () => {
         justifyContent="space-around"
         direction="column"
       >
-        <Grid item align="center" sx={{ marginTop: "1rem" }}>
-          <Typography variant="h4">set the localistaion</Typography>
+        <Grid item align="center">
+          <RouteTitle title="set the localisation" icon={icon} />
         </Grid>
         <Grid
           item
@@ -49,7 +71,9 @@ const GeoPosition = () => {
             onClick={(e) => handleChange(e)}
           >
             {showMarker && (
-              <RoomOutlinedIcon
+              <Avatar
+                src={pin}
+                sx={style.pin}
                 fontSize="large"
                 lat={coords.lat}
                 lng={coords.lng}
@@ -61,15 +85,18 @@ const GeoPosition = () => {
           <Button
             variant="contained"
             disabled={showMarker ? false : true}
-            onClick={() =>
-              alert(`your position is ${(coords.lat + ",", coords.lng)}`)
-            }
+            sx={style.secondaryButton(showMarker)}
+            onClick={handleSubmit}
           >
             set your geo position
           </Button>
         </Grid>
-        <Grid item xs={9}>
-          <NavigationButtons nextPage="PowerConsumption" prevPage="" />
+        <Grid item>
+          <NavigationButtons
+            nextPage="PowerConsumption"
+            prevPage=""
+            goToNext={goToNext}
+          />
         </Grid>
       </Grid>
     </>

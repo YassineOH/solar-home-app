@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Grid,
-  Button,
   FormControl,
   InputLabel,
   FormControlLabel,
@@ -13,13 +13,20 @@ import {
 
 import PersonIcon from "@mui/icons-material/Person";
 
+import { monthlyConsumptionActions, progressAction } from "../app/store";
+
 const EstimatedPowerConsumption = () => {
   const [numOfPeople, setNumOfPeople] = useState("");
   const [isBoiler, setIsBoiler] = useState(false);
-  const [boiler, setBoiler] = useState(0);
+  const [boiler, setBoiler] = useState("");
+  const dispatch = useDispatch();
+
+  const typeOfData = useSelector(
+    (state) => state.monthlyConsumption.typeOfData
+  );
 
   const handleNumOfPoeple = (e) => {
-    setNumOfPeople(e.target.value);
+    setNumOfPeople(Number(e.target.value));
   };
 
   const handleBoiler = (e) => {
@@ -30,7 +37,29 @@ const EstimatedPowerConsumption = () => {
     }
   };
 
-  const handleSubmit = () => {};
+  useEffect(() => {
+    if (typeOfData !== "estimated") {
+      setNumOfPeople("");
+      setIsBoiler(false);
+    }
+  }, [typeOfData]);
+
+  useEffect(() => {
+    let coefMonth = [0.8, 0.9, 0.95, 1, 1.1, 1.17, 1.2, 1.1, 1, 0.95, 0.9, 0.8];
+    let coefBoiler = [1, 1, 0.5, 0, 0, 0, 0, 0, 0, 0.4, 0.9, 1];
+    let data = Array(12)
+      .fill(0)
+      .map((_, ind) => {
+        return (
+          (1500 / 12) * numOfPeople * coefMonth[ind] +
+          Number(boiler) * coefBoiler[ind] * 5 * 10
+        );
+      });
+    if (numOfPeople >= 1) {
+      dispatch(monthlyConsumptionActions.setMonthlyConsumption(data));
+      dispatch(progressAction.setProgressPower(true));
+    }
+  }, [numOfPeople, boiler]);
 
   return (
     <Grid
@@ -39,10 +68,9 @@ const EstimatedPowerConsumption = () => {
       justifyContent="center"
       alignItems="center"
       columnSpacing={0}
-      rowSpacing={4}
+      rowSpacing={3}
     >
-      <Grid item></Grid>
-      <Grid item sx={{ width: "100%" }}>
+      <Grid item sx={{ width: "200px" }}>
         <FormControl fullWidth>
           <InputLabel id="number-of-inhabitants-label">
             number of inhabitants
@@ -53,6 +81,7 @@ const EstimatedPowerConsumption = () => {
             value={numOfPeople}
             label="number of inhabitants"
             onChange={handleNumOfPoeple}
+            disabled={typeOfData === "estimated" ? false : true}
           >
             {Array(12)
               .fill(null)
@@ -74,7 +103,7 @@ const EstimatedPowerConsumption = () => {
             .map((_, i) => (
               <Grid item xs={2} key={i}>
                 <PersonIcon
-                  fontSize="large"
+                  color="primary"
                   sx={{ display: "block", marginInline: "auto" }}
                 />
               </Grid>
@@ -90,25 +119,23 @@ const EstimatedPowerConsumption = () => {
       >
         <Grid item>
           <FormControlLabel
+            checked={isBoiler}
             control={<Checkbox />}
-            label="incluce a domestic boiler"
+            label="include a domestic boiler"
             onChange={handleBoiler}
+            disabled={typeOfData === "estimated" ? false : true}
           />
         </Grid>
-        <Grid item>
+        <Grid item sx={{ width: "200px" }}>
           <TextField
             id="outlined-number"
+            fullWidth
             label="consumption kW"
             type="number"
             disabled={isBoiler ? false : true}
             value={boiler}
-            onChange={(e) => e.target.value}
+            onChange={(e) => setBoiler(e.target.value)}
           />
-        </Grid>
-        <Grid item>
-          <Button onClick={handleSubmit} variant="contained">
-            submit your consumption
-          </Button>
         </Grid>
       </Grid>
     </Grid>

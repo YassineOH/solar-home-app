@@ -1,9 +1,14 @@
 import React from "react";
-import { AppBar, Typography, Toolbar, Grid, Button } from "@mui/material";
+import { Typography, Grid, Button } from "@mui/material";
 
 import { Link } from "react-router-dom";
 
+import homeImg from "../assets/house.png";
+
+import myStyles from "../components/style";
+
 const Home = () => {
+  const style = myStyles();
   return (
     <>
       <Grid
@@ -15,12 +20,22 @@ const Home = () => {
         justifyContent="space-around"
       >
         <Grid item>
-          <Typography variant="h2" component="h1" align="center">
-            Size your photovoltaic installation now.
+          <Typography variant="h3" component="h1" align="center">
+            Size your photovoltaic installation.
           </Typography>
         </Grid>
+        <Grid item sx={style.imgHome}>
+          <img src={homeImg} style={{ width: "100%" }} alt="home" />
+        </Grid>
+        <Grid item>set your langugae</Grid>
+
         <Grid item>
-          <Button component={Link} to="/geoposition" variant="contained">
+          <Button
+            component={Link}
+            sx={style.mainButton}
+            to="/geoposition"
+            variant="contained"
+          >
             Start Now
           </Button>
         </Grid>

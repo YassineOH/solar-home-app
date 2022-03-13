@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import myStyles from "../components/style";
+
 import {
   Grid,
   Dialog,
@@ -10,6 +14,8 @@ import {
   Checkbox,
   Typography,
 } from "@mui/material";
+
+import { monthlyConsumptionActions, progressAction } from "../app/store";
 
 const months = [
   "january",
@@ -32,7 +38,6 @@ const defautlConsumption = {
   march: { value: 0, enable: false },
   april: { value: 0, enable: false },
   may: { value: 0, enable: false },
-  may: { value: 0, enable: false },
   june: { value: 0, enable: false },
   july: { value: 0, enable: false },
   august: { value: 0, enable: false },
@@ -43,13 +48,18 @@ const defautlConsumption = {
 };
 
 const MonthlyConsumption = () => {
+  const style = myStyles();
   const [open, setOpen] = useState(false);
   const [consumption, setConsumption] = useState(defautlConsumption);
+  const dispatch = useDispatch();
+  const typeOfData = useSelector(
+    (state) => state.monthlyConsumption.typeOfData
+  );
 
   const handleChecking = (e) => {
     let month = months[Number(e.target.id)];
     let newConsumption = { ...consumption };
-    consumption[month].enable = !consumption[month].enable;
+    newConsumption[month].enable = !newConsumption[month].enable;
     setConsumption(newConsumption);
   };
 
@@ -60,12 +70,17 @@ const MonthlyConsumption = () => {
     if (month === "january") {
       months.map((month) => {
         if (!newConsumption[month].enable) {
-          newConsumption[month].value = e.target.value;
+          newConsumption[month].value = Number(e.target.value);
         }
       });
     }
     setConsumption(newConsumption);
   };
+
+  useEffect(() => {
+    let data = months.map((month) => Number(consumption[month].value));
+    dispatch(monthlyConsumptionActions.setMonthlyConsumption(data));
+  }, [consumption]);
 
   const handleSubmit = () => {
     setOpen(false);
@@ -73,7 +88,12 @@ const MonthlyConsumption = () => {
 
   return (
     <>
-      <Button onClick={() => setOpen(true)} variant="contained">
+      <Button
+        onClick={() => setOpen(true)}
+        sx={style.secondaryButton(typeOfData === "exact")}
+        variant="contained"
+        disabled={typeOfData === "exact" ? false : true}
+      >
         enter your monthly consumption
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
@@ -116,7 +136,13 @@ const MonthlyConsumption = () => {
         <DialogActions>
           <Button
             variant="contained"
-            onClick={handleSubmit}
+            sx={style.secondaryButton(
+              consumption["january"].value !== 0 ? true : false
+            )}
+            onClick={(e) => {
+              handleSubmit(e);
+              dispatch(progressAction.setProgressPower(true));
+            }}
             disabled={consumption["january"].value !== 0 ? false : true}
           >
             Submit your consumption

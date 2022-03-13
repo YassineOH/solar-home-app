@@ -1,5 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { CssBaseline } from '@mui/material'
 
 import { Home, GeoPosition, PowerConsumption, Constraints, Results } from "./routes"
 import { PrimaryNav } from './components'
@@ -8,6 +9,7 @@ import { PrimaryNav } from './components'
 const App = () => {
     return (
         <>
+            <CssBaseline />
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<PrimaryNav />}>
