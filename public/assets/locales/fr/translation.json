@@ -1,0 +1,83 @@
+{
+    "home" : {
+        "main_title": "dimensionner votre installation phovoltaïque domestique",
+        "language_menu": "choiser votre langue",
+        "start_now": "commencer"
+    },
+
+    "localisation" : {
+        "title": "Définer la localisation",
+        "set_localisation": "confirmer la localisation géographique"
+    },
+
+    "power" : {
+        "title": "consommation énergétique",
+        "estimation": "Estimer la consommation de votre maison",
+        "exact": "Saisir la consommation exacte de votre maison"
+    },
+
+    "type":{
+        "title" : "mode d'installation",
+        "on_grid": "ON-Grid",
+        "on_grid_content": "Consommer l'énergie solaire directement sans stockage, recommandé pour les zones urbaines",
+        "off_grid": "OFF-Grid",
+        "off_grid_content": "consommer et stocker l'énergie solaire sans aucun laison avec le réseau électrique, recommandé pour les zones rurales."
+    },
+    "result" : {
+        "start_simulation": "commencer la simulation",
+        "fetch":"En traitement...",
+        "show_result": "afficher les résultats",
+        "title": "votre résultats",
+        "production" : "la production solaire annuelle",
+        "production_unit": "kWh",
+        "saving": "épargne annuelle jusqu'à",
+        "saving_unit": "MAD",
+        "roi": "le retour sur investissemnet dans",
+        "roi_unit": "an",
+        "co2": "les émission annuelle de CO2 évités",
+        "co2_unit": "To",
+        "label": "la production solaire mensuelle en kWh",
+        "redo": "refaire une autre simulation"
+    },
+
+    "estimatedPower" : {
+        "nb_inhabitants" : "nombre des habitants",
+        "boiler": "inclure une chaudière domistique",
+        "consumption": "consommation en kW"
+    },
+    "exactPower" : {
+        "button" : "saisir votre consommation mensuelle",
+        "title": "la consommation mensuelle moyenne",
+        "month_1": "janvier",
+        "month_2": "février",
+        "month_3": "mars",
+        "month_4": "avril",
+        "month_5": "mai",
+        "month_6": "juin",
+        "month_7": "juillet",
+        "month_8": "août",
+        "month_9": "septembre",
+        "month_10": "octobre",
+        "month_11": "novembre",
+        "month_12": "décembre",
+        "unit": "kWh",
+        "submit": "soumettez votre consommation"
+
+    },
+
+    "quote" : {
+        "ask": "demander un devis",
+        "fill": "rensigner votre information personnel, s'il vous plaît",
+        "name" : "nom et prènom",
+        "phone": "nombre de télphone",
+        "email": "adresse électronique",
+        "submit" :  "soumettre votre demande",
+        "alert":  "nous recevons votre demande, merci."
+    },
+
+    "next_nav": "suivant",
+    "prev_nav": "précédent",
+
+    "succes" : "  Nous avons reçu votre demande, nous enverrons votre devis dans le plus bref de délais"
+}
+

@@ -1,6 +1,7 @@
 import React from "react";
 import { Paper, Grid, Radio, FormControlLabel } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+import { createTheme } from "@mui/system";
 
 import {
   EstimatedPowerConsumption,
@@ -8,6 +9,7 @@ import {
   NavigationButtons,
   RouteTitle,
 } from "../components/index";
+import { useTranslation } from "react-i18next";
 
 import myStyles from "../components/style";
 
@@ -16,7 +18,9 @@ import { monthlyConsumptionActions } from "../app/store";
 import icon from "../assets/counter.png";
 
 const PowerConsumption = () => {
-  const style = myStyles();
+  const { t } = useTranslation();
+  const theme = createTheme(useSelector((state) => state.mode.mode));
+  const style = myStyles(theme);
 
   const typeOfData = useSelector(
     (state) => state.monthlyConsumption.typeOfData
@@ -37,13 +41,13 @@ const PowerConsumption = () => {
     <Grid
       container
       direction="column"
-      alignItems="stretch"
+      alignItems="center"
       justifyContent="space-evenly"
-      sx={{ height: "90vh" }}
+      sx={{ minHeight: "90vh" }}
       rowSpacing={5}
     >
       <Grid item>
-        <RouteTitle title="power consumption" icon={icon}></RouteTitle>
+        <RouteTitle title={t("power.title")} icon={icon}></RouteTitle>
       </Grid>
       <Grid
         item
@@ -61,7 +65,8 @@ const PowerConsumption = () => {
             onChange={handleChecked}
             value="estimated"
             control={<Radio />}
-            label="Make an estimation on your consumption."
+            label={t("power.estimation")}
+            sx={{ marginInline: 0 }}
           />
         </Grid>
         <Grid item>
@@ -86,7 +91,8 @@ const PowerConsumption = () => {
             onChange={handleChecked}
             value="exact"
             control={<Radio />}
-            label="Set your exact consumption."
+            label={t("power.exact")}
+            sx={{ marginInline: 0 }}
           />
         </Grid>
         <Grid item>

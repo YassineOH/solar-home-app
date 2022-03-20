@@ -8,7 +8,7 @@ const RouteTitle = ({ title, icon }) => {
       alignItems="center"
       justifyContent="center"
       columnSpacing={2}
-      sx={{ marginTop: "1rem" }}
+      sx={{ marginBlock: ".5rem" }}
     >
       <Grid item>
         <Avatar alt="icon" src={icon} variant="square" />

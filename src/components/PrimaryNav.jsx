@@ -7,16 +7,31 @@ import {
   Avatar,
   Switch,
 } from "@mui/material";
+import { createTheme } from "@mui/system";
 import { Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { modeActions } from "../app/store";
+import { lightTheme, darkTheme } from "../app/themes";
 
 import myStyles from "../components/style";
 import imgLogo from "../assets/sun.png";
 
 const PrimaryNav = () => {
-  const style = myStyles();
+  const theme = createTheme(useSelector((state) => state.mode.mode));
+  const dispatch = useDispatch();
+  const handleChange = (e) => {
+    if (e.target.checked) {
+      dispatch(modeActions.setLightTheme(lightTheme));
+    } else {
+      dispatch(modeActions.setDarkTheme(darkTheme));
+    }
+  };
+
+  const style = myStyles(theme);
   return (
     <>
-      <AppBar sx={style.appBar} color="transparent" position="static">
+      <AppBar sx={style.appBar} color="transparent" position="relative">
         <Toolbar>
           <Grid
             container
@@ -36,7 +51,7 @@ const PrimaryNav = () => {
               </Typography>
             </Grid>
             <Grid item xs={2}>
-              <Switch defaultChecked />
+              <Switch defaultChecked onChange={handleChange} />
             </Grid>
           </Grid>
         </Toolbar>

@@ -1,4 +1,5 @@
 import React from "react";
+import { createTheme } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Card,
@@ -13,14 +14,16 @@ import {
 
 import myStyles from "../components/style";
 
-import { modeOfInstallationActions } from "../app/store";
+import { modeOfInstallationActions, progressAction } from "../app/store";
 
-const CardShow = ({ image, type, text }) => {
-  const style = myStyles();
+const CardShow = ({ image, type, text, typeId }) => {
+  const theme = createTheme(useSelector((state) => state.mode.mode));
+  const style = myStyles(theme);
   const mode = useSelector((state) => state.modeOfInstallation.mode);
   const dispatch = useDispatch();
   const handleMode = (e) => {
     dispatch(modeOfInstallationActions.setModeOfInstallation(e.target.value));
+    dispatch(progressAction.setProgressMode(true));
   };
 
   return (
@@ -30,24 +33,24 @@ const CardShow = ({ image, type, text }) => {
           <CardMedia
             component="img"
             image={image}
-            sx={({ objectFit: "contain" }, style.imgFilter(!(type === mode)))}
+            sx={style.imgFilter(!(typeId === mode))}
           />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item xs={8}>
           <CardContent
-            sx={({ paddingRight: 0 }, style.textDisable(!(type === mode)))}
+            sx={({ paddingInline: 0 }, style.textDisable(!(typeId === mode)))}
           >
             <Typography varaint="h6" sx={{ fontWeight: "bold" }}>
-              {type.toUpperCase()} Installation
+              {type.toUpperCase()}
             </Typography>
             <Typography variant="body">{text}</Typography>
           </CardContent>
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={2}>
           <CardActions>
             <FormControlLabel
-              checked={type === mode ? true : false}
-              value={type}
+              checked={typeId === mode ? true : false}
+              value={typeId}
               control={<Radio />}
               onChange={(e) => handleMode(e)}
               label=""

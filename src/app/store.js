@@ -1,4 +1,9 @@
 import { createSlice, configureStore } from "@reduxjs/toolkit"
+import cookies from "js-cookie"
+
+import { lightTheme } from "./themes"
+import themingLang from "./themes"
+
 
 const coordsSlice = createSlice({
     name: "coords",
@@ -27,7 +32,7 @@ const monthlyConsumptionSlice = createSlice({
 
 const modeOfInstallationSlice = createSlice({
     name: "modeOfInstallation",
-    initialState: { mode: "on-Grid" },
+    initialState: { mode: "" },
     reducers: {
         setModeOfInstallation(state, action) {
             state.mode = action.payload
@@ -62,12 +67,43 @@ const progessSlice = createSlice({
     }
 })
 
+
+const modeSlice = createSlice({
+    name: "mode",
+    initialState: {
+        mode: lightTheme
+    },
+    reducers: {
+        setLightTheme(state, action) {
+            state.mode = action.payload
+        },
+
+        setDarkTheme(state, action) {
+            state.mode = action.payload
+        },
+    }
+
+})
+
+const languageSlice = createSlice({
+    name: "lang",
+    initialState: { lang: themingLang(cookies.get("i18next")) || themingLang("en") },
+    reducers: {
+        changeLang(state, action) {
+            state.lang = action.payload
+        }
+    }
+})
+
+
+
 export const coordsActions = coordsSlice.actions
 export const monthlyConsumptionActions = monthlyConsumptionSlice.actions
 export const modeOfInstallationActions = modeOfInstallationSlice.actions
 export const progressAction = progessSlice.actions
 export const specificEnergyActions = specificEnergySlice.actions
-
+export const modeActions = modeSlice.actions
+export const languageActions = languageSlice.actions
 
 const store = configureStore({
     reducer: {
@@ -75,7 +111,10 @@ const store = configureStore({
         monthlyConsumption: monthlyConsumptionSlice.reducer,
         modeOfInstallation: modeOfInstallationSlice.reducer,
         progress: progessSlice.reducer,
-        specificEnergy: specificEnergySlice.reducer
+        specificEnergy: specificEnergySlice.reducer,
+        mode: modeSlice.reducer,
+        lang: languageSlice.reducer
+
     }
 })
 

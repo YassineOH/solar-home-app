@@ -11,11 +11,14 @@ import {
   TextField,
 } from "@mui/material";
 
+import { useTranslation } from "react-i18next";
+
 import PersonIcon from "@mui/icons-material/Person";
 
 import { monthlyConsumptionActions, progressAction } from "../app/store";
 
 const EstimatedPowerConsumption = () => {
+  const { t } = useTranslation();
   const [numOfPeople, setNumOfPeople] = useState("");
   const [isBoiler, setIsBoiler] = useState(false);
   const [boiler, setBoiler] = useState("");
@@ -73,7 +76,7 @@ const EstimatedPowerConsumption = () => {
       <Grid item sx={{ width: "200px" }}>
         <FormControl fullWidth>
           <InputLabel id="number-of-inhabitants-label">
-            number of inhabitants
+            {t("estimatedPower.nb_inhabitants")}
           </InputLabel>
           <Select
             labelId="number-of-inhabitants-label"
@@ -121,7 +124,7 @@ const EstimatedPowerConsumption = () => {
           <FormControlLabel
             checked={isBoiler}
             control={<Checkbox />}
-            label="include a domestic boiler"
+            label={t("estimatedPower.boiler")}
             onChange={handleBoiler}
             disabled={typeOfData === "estimated" ? false : true}
           />
@@ -130,7 +133,7 @@ const EstimatedPowerConsumption = () => {
           <TextField
             id="outlined-number"
             fullWidth
-            label="consumption kW"
+            label={t("estimatedPower.consumption")}
             type="number"
             disabled={isBoiler ? false : true}
             value={boiler}

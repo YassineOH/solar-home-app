@@ -8,6 +8,6 @@ export const getSolarPower = async (mode, lat, lng, peakpower) => {
 
         return response
     } catch (error) {
-        console.log(error);
+        return error
     }
 };

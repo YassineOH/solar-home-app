@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Button, Avatar } from "@mui/material";
+import { createTheme } from "@mui/system";
 import GoogleMapReact from "google-map-react";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import { getSolarPower } from "../services/solarData";
 
@@ -13,17 +15,20 @@ import {
   specificEnergyActions,
 } from "../app/store";
 
+import { darkMapStyle } from "../components/style";
 import icon from "../assets/map.png";
 import pin from "../assets/pin.png";
 
 const GeoPosition = () => {
+  const { t } = useTranslation();
   const [showMarker, setShowMarker] = useState(false);
   const [isMapChanged, setIsMapChanged] = useState(false);
   const coords = useSelector((state) => state.coords.coords);
   const goToNext = useSelector((state) => state.progress.geoPosition);
   const dispatch = useDispatch();
+  const theme = createTheme(useSelector((state) => state.mode.mode));
 
-  const style = myStyles();
+  const style = myStyles(theme);
 
   const handleChange = (e) => {
     setIsMapChanged(true);
@@ -50,18 +55,24 @@ const GeoPosition = () => {
     <>
       <Grid
         container
-        spacing={5}
+        rowSpacing={5}
         alignItems="stretch"
         justifyContent="space-around"
         direction="column"
+        sx={{
+          width: `min(100vw, 550px)`,
+          marginInline: "auto",
+          overflowX: "hidden",
+        }}
       >
         <Grid item align="center">
-          <RouteTitle title="set the localisation" icon={icon} />
+          <RouteTitle title={t("localisation.title")} icon={icon} />
         </Grid>
         <Grid
           item
           style={{
             height: "60vh",
+            paddingTop: 0,
           }}
         >
           <GoogleMapReact
@@ -69,6 +80,13 @@ const GeoPosition = () => {
             defaultZoom={10}
             defaultCenter={{ lat: 33.9716, lng: -6.8498 }}
             onClick={(e) => handleChange(e)}
+            options={() => {
+              if (theme.palette.mode === "dark") {
+                return { disableDefaultUI: true, styles: darkMapStyle };
+              } else {
+                return { disableDefaultUI: true, styles: [] };
+              }
+            }}
           >
             {showMarker && (
               <Avatar
@@ -88,7 +106,7 @@ const GeoPosition = () => {
             sx={style.secondaryButton(showMarker)}
             onClick={handleSubmit}
           >
-            set your geo position
+            {t("localisation.set_localisation")}
           </Button>
         </Grid>
         <Grid item>

@@ -1,45 +1,49 @@
 import React from "react";
 import { Grid } from "@mui/material";
-
+import { useSelector } from "react-redux";
 import { NavigationButtons, CardShow, RouteTitle } from "../components";
+import { useTranslation } from "react-i18next";
 
 import offgrid from "../assets/offgrid.png";
 import ongrid from "../assets/ongrid.png";
 import icon from "../assets/gridSolar.png";
 
 const Constraints = () => {
+  const { t } = useTranslation();
+  const goToNext = useSelector((state) => state.progress.mode);
   return (
     <Grid
       container
       direction="column"
       alignItems="center"
-      justifyContent="space-evenly"
+      justifyContent="space-around"
       rowSpacing={2}
       sx={{ minHeight: "90vh", marginTop: "1rem" }}
     >
       <Grid item>
-        <RouteTitle icon={icon} title="mode of the installation" />
+        <RouteTitle icon={icon} title={t("type.title")} />
       </Grid>
       <Grid item>
         <CardShow
           image={ongrid}
-          type="on-Grid"
-          text="Consume the solar power directly without stocking, recommended for
-              urban zones."
+          typeId="on-grid"
+          type={t("type.on_grid")}
+          text={t("type.on_grid_content")}
         />
       </Grid>
       <Grid item>
         <CardShow
           image={offgrid}
-          type="off-Grid"
-          text="Consume and stock the solar energy without connecting with grid, recommended for rural zones."
+          typeId="off-grid"
+          type={t("type.off_grid")}
+          text={t("type.off_grid_content")}
         />
       </Grid>
-      <Grid item sx={{ width: "90vw" }}>
+      <Grid item sx={{ width: "100%", marginInline: "auto" }}>
         <NavigationButtons
           nextPage="results"
           prevPage="PowerConsumption"
-          goToNext={true}
+          goToNext={goToNext}
         />
       </Grid>
     </Grid>

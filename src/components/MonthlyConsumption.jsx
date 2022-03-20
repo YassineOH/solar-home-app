@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { createTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import myStyles from "../components/style";
 
@@ -48,7 +50,9 @@ const defautlConsumption = {
 };
 
 const MonthlyConsumption = () => {
-  const style = myStyles();
+  const { t } = useTranslation();
+  const theme = createTheme(useSelector((state) => state.mode.mode));
+  const style = myStyles(theme);
   const [open, setOpen] = useState(false);
   const [consumption, setConsumption] = useState(defautlConsumption);
   const dispatch = useDispatch();
@@ -94,10 +98,10 @@ const MonthlyConsumption = () => {
         variant="contained"
         disabled={typeOfData === "exact" ? false : true}
       >
-        enter your monthly consumption
+        {t("exactPower.button")}
       </Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>Enter your averge monthly consumption.</DialogTitle>
+        <DialogTitle>{t("exactPower.title")}</DialogTitle>
 
         <DialogContent>
           {months.map((month, i) => (
@@ -109,7 +113,9 @@ const MonthlyConsumption = () => {
               sx={{ marginBottom: ".2rem" }}
             >
               <Grid item xs={5}>
-                <Typography variant="subtitle1">{`${month}`}</Typography>
+                <Typography variant="subtitle1">
+                  {t(`exactPower.month_${i + 1}`)}
+                </Typography>
               </Grid>
               <Grid item xs={2}>
                 <Checkbox
@@ -128,7 +134,9 @@ const MonthlyConsumption = () => {
                 />
               </Grid>
               <Grid item xs={1}>
-                <Typography variant="subtitle1">kWh</Typography>
+                <Typography variant="subtitle1">
+                  {t("exactPower.unit")}{" "}
+                </Typography>
               </Grid>
             </Grid>
           ))}
@@ -145,7 +153,7 @@ const MonthlyConsumption = () => {
             }}
             disabled={consumption["january"].value !== 0 ? false : true}
           >
-            Submit your consumption
+            {t("exactPower.submit")}
           </Button>
         </DialogActions>
       </Dialog>

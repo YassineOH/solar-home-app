@@ -1,0 +1,83 @@
+{
+    "home" : {
+        "main_title": "size your domestic photovoltaic installation",
+        "language_menu": "set your language",
+        "start_now": "start now"
+    },
+
+    "localisation" : {
+        "title": "set the localisation",
+        "set_localisation": "set your geo position"
+    },
+
+    "power" : {
+        "title": "power consumption",
+        "estimation": "Estimate the consumption power of your home",
+        "exact": "Set the exact consumption of your home"
+    },
+
+    "type":{
+        "title" : "mode of installation",
+        "on_grid": "ON-Grid",
+        "on_grid_content": "Consume the solar power directly without stocking, recommended for urban zones.",
+        "off_grid": "OFF-Grid",
+        "off_grid_content": "Consume and stock the solar energy without any connection with the grid, recommended fro rural zones."
+    },
+    "result" : {
+        "start_simulation": "start the simulation",
+        "fetch":"processing...",
+        "show_result": "show the results",
+        "title": "your results",
+        "production" : "the yearly solar production",
+        "production_unit": "kWh",
+        "saving": "annual savings up to",
+        "saving_unit": "MAD",
+        "roi": "return on investment less than",
+        "roi_unit": "yr",
+        "co2": "CO2 emission avoided per year",
+        "co2_unit": "To",
+        "label": "the montly solar produciton in kWh",
+        "redo": "redo another simulation"
+    },
+
+    "estimatedPower" : {
+        "nb_inhabitants" : "number of inhabitants",
+        "boiler": "inclure a domestic boiler",
+        "consumption": "consumption kW"
+    },
+    "exactPower" : {
+        "button" : "enter your monthly consumption",
+        "title": "Enter your averge montly consumption",
+        "month_1": "january",
+        "month_2": "february",
+        "month_3": "march",
+        "month_4": "april",
+        "month_5": "may",
+        "month_6": "june",
+        "month_7": "july",
+        "month_8": "august",
+        "month_9": "september",
+        "month_10": "october",
+        "month_11": "november",
+        "month_12": "december",
+        "unit": "kWh",
+        "submit": "submit your consumption"
+
+    },
+
+    "quote" : {
+        "ask": "ask for a quote",
+        "fill": "fill in your personal information please",
+        "name" : "full name",
+        "phone": "phone number",
+        "email": "adress mail",
+        "submit" :  "submit your request",
+        "alert":  "we receive your order, thank you."
+    },
+
+    "next_nav": "next",
+    "prev_nav": "prev",
+
+    "succes" : "We have received your request, we will send your quote as soon as possible"
+}
+
