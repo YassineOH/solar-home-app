@@ -78,6 +78,11 @@
     "next_nav": "next",
     "prev_nav": "prev",
 
-    "succes" : "We have received your request, we will send your quote as soon as possible"
+    "succes" : "We have received your request, we will send your quote as soon as possible",
+
+    "about_app_title" : "About this application",
+    "about_app_content" :"the purpose of this application is to help the customers to estimate and determine the size and the benefits of a domestic photovoltaic installation.",
+    "about_me_title": "About the developer",
+    "about_me_content": "My name is Yassine OFQIR-HAMMA a solar engineer and a frontEnd Developer, contact me:"
 }
 

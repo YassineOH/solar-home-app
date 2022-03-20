@@ -78,6 +78,11 @@
     "next_nav": "suivant",
     "prev_nav": "précédent",
 
-    "succes" : "  Nous avons reçu votre demande, nous enverrons votre devis dans le plus bref de délais"
+    "succes" : "  Nous avons reçu votre demande, nous enverrons votre devis dans le plus bref de délais",
+
+    "about_app_title" : "À propos de cette application",
+    "about_app_content" :"le but de cette application est d'aider les clients à estimer et à déterminer la taille et les avantages d'une installation photovoltaïque domestique.",
+    "about_me_title": "À propos du développeur",
+    "about_me_content": "Je m'appelle Yassine OFQIR-HAMMA ingénieur solaire et développeur FrontEnd, contactez-moi :"
 }
 
